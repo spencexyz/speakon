@@ -1,8 +1,8 @@
 'use strict';
 
-app.factory('Post', function ($firebase) {
-	var ref = new Firebase(FIREBASE_URL);
-	var posts = $firebase(ref.child('posts')).$asArray();
+angular.module('starter.services', ["firebase"]).factory('Post', function ($firebaseObject, $firebaseArray) {
+	var ref = new Firebase('https://speakon.firebaseio.com/');
+	var posts = $firebaseArray(ref.child('posts'));
 
 	var Post = {
 		all: posts,
@@ -10,7 +10,7 @@ app.factory('Post', function ($firebase) {
 			return posts.$add(post);
 		},
 		get: function (postId) {
-			return $firebase(ref.child('posts').child(postId)).$asObject();
+			return $firebaseObject(ref.child('posts').child(postId));
 		},
 		delete: function (post) {
 			return posts.$remove(post);

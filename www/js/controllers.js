@@ -62,13 +62,15 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PostsCtrl', function ($scope) {
-	$scope.posts = [];
+.controller('PostsCtrl', function($scope, Post) {
+
 	$scope.post = {message: ''};
 
 	$scope.submitPost = function () {
-      $scope.posts.push($scope.post);
-      $scope.post = {message: ''};
+		Post.create($scope.post).then(function (ref) {
+			$location.path('/posts/' + ref.name());
+			$scope.post = {message: ''};
+   		});
     };
 })
 

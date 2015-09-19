@@ -1,6 +1,6 @@
 // This file contains services for the app
 
-angular.module('starter.services', [])
+angular.module('starter.services', ["firebase"])
 
 .factory('Beacons', function() {
 	// Might use a resource here that returns a JSON array
@@ -117,9 +117,9 @@ angular.module('starter.services', [])
 	}
 })
 
-.factory('Post', function ($firebase) {
-	var ref = new Firebase('https://speakon.firebaseIO.com/');
-	var posts = $firebase(ref.child('posts')).$asArray();
+.factory('Post', function ($firebaseObject, $firebaseArray) {
+	var ref = new Firebase('https://speakon.firebaseio.com/');
+	var posts = $firebaseArray(ref.child('posts'));
 
 	var Post = {
 		all: posts,
@@ -127,7 +127,7 @@ angular.module('starter.services', [])
 			return posts.$add(post);
 		},
 		get: function (postId) {
-			return $firebase(ref.child('posts').child(postId)).$asObject();
+			return $firebaseObject(ref.child('posts').child(postId));
 		},
 		delete: function (post) {
 			return posts.$remove(post);
@@ -135,6 +135,6 @@ angular.module('starter.services', [])
 	};
 
   return Post;
-})
+});
 
 ; // End of angular.module
