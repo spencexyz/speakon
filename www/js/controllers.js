@@ -8,11 +8,6 @@ angular.module('starter.controllers', [])
 // Controller for page with list of beacons
 .controller('BeaconsCtrl', function($scope, $rootScope, Beacons, $state, $ionicHistory, $timeout) {
 
-	ionic.Platform.ready(function() {
-    	// hide the status bar using the StatusBar plugin
-   		// StatusBar.hide();
-	});
-
 	function startRanging() {
 		Beacons.stopRangingBeacons();
 		Beacons.startRangingBeacons(beaconsRanged, rangingError);
@@ -49,8 +44,7 @@ angular.module('starter.controllers', [])
 	document.addEventListener('deviceready', startRanging, false);
 })
 
-.controller('PostsCtrl', function($scope, Post, $timeout) {
-	hyper.log('calling postctrl');
+.controller('PostsCtrl', function($scope, Post, $timeout, $location, GetUU) {
 	$scope.posts = Post.all;
 	$scope.post = {message: '', timestamp: Firebase.ServerValue.TIMESTAMP};
 
@@ -68,6 +62,90 @@ angular.module('starter.controllers', [])
 			$timeout(hideSpinner, 1000);
    		});
     };
+
+	// init variables
+	$scope.data = {};
+	$scope.obj;
+	var pictureSource;   // picture source
+	var destinationType; // sets the format of returned value
+	var url;
+	
+	// on DeviceReady check if already logged in (in our case CODE saved)
+	ionic.Platform.ready(function() {
+		//console.log("ready get camera types");
+		if (!navigator.camera)
+			{
+			// error handling
+			return;
+			}
+		//pictureSource=navigator.camera.PictureSourceType.PHOTOLIBRARY;
+		pictureSource=navigator.camera.PictureSourceType.CAMERA;
+		destinationType=navigator.camera.DestinationType.FILE_URI;
+		});
+	
+	// get upload URL for FORM
+	GetUU.query(function(response) {
+		$scope.data = response;
+		//console.log("got upload url ", $scope.data.uploadurl);
+		});
+	
+	// take picture
+	$scope.takePicture = function() {
+		//console.log("got camera button click");
+		var options =   {
+			quality: 50,
+			destinationType: destinationType,
+			sourceType: pictureSource,
+			encodingType: 0
+			};
+		if (!navigator.camera)
+			{
+			// error handling
+			return;
+			}
+		navigator.camera.getPicture(
+			function (imageURI) {
+				//console.log("got camera success ", imageURI);
+				$scope.mypicture = imageURI;
+				},
+			function (err) {
+				//console.log("got camera error ", err);
+				// error handling camera plugin
+				},
+			options);
+		};
+
+	// do POST on upload url form by http / html form    
+	$scope.update = function(obj) {
+		if (!$scope.data.uploadurl)
+			{
+			// error handling no upload url
+			return;
+			}
+		if (!$scope.mypicture)
+			{
+			// error handling no picture given
+			return;
+			}
+		var options = new FileUploadOptions();
+		options.fileKey="ffile";
+		options.fileName=$scope.mypicture.substr($scope.mypicture.lastIndexOf('/')+1);
+		options.mimeType="image/jpeg";
+		var params = {};
+		params.other = obj.text; // some other POST fields
+		options.params = params;
+		
+		//console.log("new imp: prepare upload now");
+		var ft = new FileTransfer();
+		ft.upload($scope.mypicture, encodeURI($scope.data.uploadurl), uploadSuccess, uploadError, options);
+		function uploadSuccess(r) {
+			// handle success like a message to the user
+			}
+		function uploadError(error) {
+			//console.log("upload error source " + error.source);
+			//console.log("upload error target " + error.target);
+			}
+		};
 })
 
 .controller('FeedCtrl', function($scope, Post) {

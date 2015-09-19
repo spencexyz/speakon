@@ -137,6 +137,15 @@ angular.module('starter.services', ["firebase"])
 	};
 
   return Post;
-});
+})
+
+.factory('GetUU', function() {
+	var uploadurl = "http://localhost/upl";
+	return  {
+    	query: function() {
+		return uploadurl;
+		}
+	}
+})
 
 ; // End of angular.module
