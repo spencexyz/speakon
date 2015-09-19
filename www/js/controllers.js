@@ -24,7 +24,7 @@ angular.module('starter.controllers', [])
 
 		//this code changes the state based on how far away the beacon is
 		//TODO create a homescreen where you first land while the app checks distance
-		if($scope.distance < 0.2) {
+		if($scope.distance) {
 			var currentView = $ionicHistory.currentView();
 			if(currentView.stateId === "welcome"){
 				$state.go('tab.beacons');
@@ -65,14 +65,14 @@ angular.module('starter.controllers', [])
 .controller('PostsCtrl', function($scope, Post, $timeout) {
 	hyper.log('calling postctrl');
 	$scope.posts = Post.all;
-	$scope.post = {message: ''};
+	$scope.post = {message: '', timestamp: Firebase.ServerValue.TIMESTAMP};
 
 	$scope.loading = false;
 
 	$scope.submitPost = function () {
 		$scope.loading = true;
 		Post.create($scope.post).then(function() {
-			$scope.post = {message: ''};
+			$scope.post = {message: '', timestamp: Firebase.ServerValue.TIMESTAMP};
 
 			var hideSpinner = function() {
 				$scope.loading = false;
