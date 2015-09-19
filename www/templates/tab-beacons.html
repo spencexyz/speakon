@@ -4,6 +4,7 @@
 		<div class="list card" ng-repeat="post in posts | orderBy:'-timestamp'">
 			<div class="item">
 				<p> {{post.message}} </p>
+				<img ng-src="{{post.image}}">
 				<p> {{post.timestamp | date:'shortTime'}} </p>
 			</div>
 		</div>

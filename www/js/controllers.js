@@ -46,29 +46,15 @@ angular.module('starter.controllers', [])
 
 .controller('PostsCtrl', function($scope, Post, $timeout, $location, GetUU, $cordovaCamera) {
 	$scope.posts = Post.all;
-	$scope.post = {message: '', timestamp: Firebase.ServerValue.TIMESTAMP};
+	$scope.post = {message: '', image: '', timestamp: Firebase.ServerValue.TIMESTAMP};
 
 	$scope.loading = false;
-
-	$scope.submitPost = function () {
-		$scope.loading = true;
-		Post.create($scope.post).then(function() {
-			$scope.post = {message: '', timestamp: Firebase.ServerValue.TIMESTAMP};
-
-			var hideSpinner = function() {
-				$scope.loading = false;
-			}
-
-			$timeout(hideSpinner, 1000);
-   		});
-    };
 
 	// init variables
 	$scope.data = {};
 	$scope.obj;
 	var pictureSource = Camera.PictureSourceType.CAMERA;   // picture source
 	var destinationType = Camera.DestinationType.DATA_URL; // sets the format of returned value
-	var url;
 	
 	// on DeviceReady check if already logged in (in our case CODE saved)
 	document.addEventListener("deviceready", function () {
@@ -88,13 +74,25 @@ angular.module('starter.controllers', [])
 	        };
  
 	        $cordovaCamera.getPicture(options).then(function(imageData) {
-	            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+	            $scope.post.image = "data:image/jpeg;base64," + imageData;
+	            hyper.log($scope.post.image);
 	        }, function(err) {
 	            // An error occured. Show a message to the user
 	        });
     	}
     });
 
+	$scope.submitPost = function () {
+		$scope.loading = true;
+		Post.create($scope.post).then(function() {
+			$scope.post = {message: '', image: '', timestamp: Firebase.ServerValue.TIMESTAMP};
+			var hideSpinner = function() {
+				$scope.loading = false;
+			}
+
+			$timeout(hideSpinner, 1000);
+   		});
+    };
 
 	// do POST on upload url form by http / html form    
 	$scope.update = function(obj) {

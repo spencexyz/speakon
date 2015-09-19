@@ -20,8 +20,8 @@
 
         </button>
 
-        <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}">
-    	<img ng-show="imgURI === undefined" ng-src="http://placehold.it/300x300">
+        <img ng-src="{{post.image}}">
+    	<!-- <img ng-show="imgURI === undefined" ng-src="http://placehold.it/300x300"> -->
         <a class="button button-full button-calm" ng-click="takePicture()">
         	<span class="fa fa-camera"></span>
     	</a>
