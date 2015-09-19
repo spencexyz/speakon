@@ -62,14 +62,22 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PostsCtrl', function($scope, Post) {
-
+.controller('PostsCtrl', function($scope, Post, $timeout) {
+	$scope.posts = Post.all;
 	$scope.post = {message: ''};
 
+	$scope.loading = false;
+
 	$scope.submitPost = function () {
-		Post.create($scope.post).then(function (ref) {
-			$location.path('/posts/' + ref.name());
+		$scope.loading = true;
+		Post.create($scope.post).then(function() {
 			$scope.post = {message: ''};
+
+			var hideSpinner = function() {
+				$scope.loading = false;
+			}
+
+			$timeout(hideSpinner, 1000);
    		});
     };
 })

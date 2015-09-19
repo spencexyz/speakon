@@ -8,7 +8,16 @@
 			<input type="text" ng-model="post.message" /> 
 		</label>
 		<button class="button button-full button-positive" type="submit">
-            Post
+            
+	        <span data-ng-hide="loading">
+	        	Post
+	 		</span>
+ 
+			<span data-ng-show="loading">
+				Saving
+				<i class="fa fa-spinner fa-spin"></i>
+			</span>
+			
         </button>
 	</form>
 	</ion-content>
