@@ -117,4 +117,24 @@ angular.module('starter.services', [])
 	}
 })
 
+.factory('Post', function ($firebase) {
+	var ref = new Firebase('https://speakon.firebaseIO.com/');
+	var posts = $firebase(ref.child('posts')).$asArray();
+
+	var Post = {
+		all: posts,
+		create: function (post) {
+			return posts.$add(post);
+		},
+		get: function (postId) {
+			return $firebase(ref.child('posts').child(postId)).$asObject();
+		},
+		delete: function (post) {
+			return posts.$remove(post);
+		}
+	};
+
+  return Post;
+})
+
 ; // End of angular.module

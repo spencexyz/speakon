@@ -24,7 +24,7 @@ angular.module('starter.controllers', [])
 
 		//this code changes the state based on how far away the beacon is
 		//TODO create a homescreen where you first land while the app checks distance
-		if($scope.distance > 0.2) {
+		if($scope.distance < 0.2) {
 			var currentView = $ionicHistory.currentView();
 			if(currentView.stateId === "welcome"){
 				$state.go('tab.beacons');
@@ -61,5 +61,16 @@ angular.module('starter.controllers', [])
 	});
 
 })
+
+.controller('PostsCtrl', function ($scope) {
+	$scope.posts = [];
+	$scope.post = {message: ''};
+
+	$scope.submitPost = function () {
+      $scope.posts.push($scope.post);
+      $scope.post = {message: ''};
+    };
+})
+
 
 ; // End of angular.module

@@ -1,10 +1,17 @@
-<ion-view view-title="App Info">
+<ion-view view-title="Message">
 	<ion-content class="padding">
-		<h1>Welcome to</h1>
-		<h1>Speakon</h1>
-		<br/>
-		<br/>
-		<p>Currently searching for a beacon...</p>
-		<p>tabs-info</p>
+	<br/>
+	<br/>
+	<br/>
+	<form ng-submit="submitPost()">
+		<label class="item item-input">
+			<input type="text" ng-model="post.message" /> 
+		</label>
+		<button class="button button-full button-positive" type="submit">
+            Sign In
+        </button>
+	</form>
+	Post: {{ post.message }} <br/>
+	Array: {{posts}}
 	</ion-content>
 </ion-view>

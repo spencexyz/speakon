@@ -60,7 +60,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 		views: {
 			'tab-info': {
 				templateUrl: 'templates/tab-info.html',
-				controller: ''
+				controller: 'PostsCtrl'
 			}
 		}
 	})
