@@ -8,10 +8,6 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-// MyChat App - Ionic & Firebase Demo
-
-var firebaseUrl = "https://speakon.firebaseio.com/";
-
 function onDeviceReady() {
     angular.bootstrap(document, ["starter"]);
 }
@@ -70,7 +66,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 		views: {
 			'tab-beacons': {
 				templateUrl: 'templates/tab-beacons.html',
-				controller: 'BeaconsCtrl'
+				controller: 'FeedCtrl'
 			}
 		}
 	})

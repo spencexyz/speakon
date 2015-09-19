@@ -1,11 +1,10 @@
 <ion-view view-title="Message">
 	<ion-content class="padding">
-	<br/>
-	<br/>
-	<br/>
+
 	<form ng-submit="submitPost()">
+
 		<label class="item item-input">
-			<input type="text" ng-model="post.message" /> 
+			<input type="text" ng-model="post.message" placeholder="What do you have to say?" /> 
 		</label>
 		<button class="button button-full button-positive" type="submit">
             
@@ -17,7 +16,7 @@
 				Saving
 				<i class="fa fa-spinner fa-spin"></i>
 			</span>
-			
+
         </button>
 	</form>
 	</ion-content>

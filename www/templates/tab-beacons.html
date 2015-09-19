@@ -1,12 +1,8 @@
-<ion-view view-title="Beacons">
+<ion-view view-title="Feed">
 	<ion-content>
-		<div class="list card">
-			<div class="item item-body">
-				<div>
-					<h1>Estimote Starter Kit</h1>
-					<p>Beacon App Template you can use to create your own beacon apps.</p>
-					<p>Distance: {{beacons[0].distance}}</p>
-				</div>
+		<div class="list card" ng-repeat="post in posts">
+			<div class="item">
+				<p> {{post.message}} </p>
 			</div>
 		</div>
 	</ion-content>

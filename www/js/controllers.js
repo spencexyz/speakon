@@ -63,6 +63,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PostsCtrl', function($scope, Post, $timeout) {
+	hyper.log('calling postctrl');
 	$scope.posts = Post.all;
 	$scope.post = {message: ''};
 
@@ -80,6 +81,11 @@ angular.module('starter.controllers', [])
 			$timeout(hideSpinner, 1000);
    		});
     };
+})
+
+.controller('FeedCtrl', function($scope, Post) {
+	$scope.posts = Post.get();
+
 })
 
 

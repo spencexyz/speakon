@@ -119,6 +119,7 @@ angular.module('starter.services', ["firebase"])
 
 .factory('Post', function ($firebaseObject, $firebaseArray) {
 	var ref = new Firebase('https://speakon.firebaseio.com/');
+	
 	var posts = $firebaseArray(ref.child('posts'));
 
 	var Post = {
@@ -126,8 +127,9 @@ angular.module('starter.services', ["firebase"])
 		create: function (post) {
 			return posts.$add(post);
 		},
-		get: function (postId) {
-			return $firebaseObject(ref.child('posts').child(postId));
+		get: function () {
+			var postsRef = new Firebase('https://speakon.firebaseio.com/posts');
+			return $firebaseArray(postsRef);
 		},
 		delete: function (post) {
 			return posts.$remove(post);
