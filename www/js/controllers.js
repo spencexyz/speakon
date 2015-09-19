@@ -44,7 +44,7 @@ angular.module('starter.controllers', [])
 	document.addEventListener('deviceready', startRanging, false);
 })
 
-.controller('PostsCtrl', function($scope, Post, $timeout, $location, GetUU) {
+.controller('PostsCtrl', function($scope, Post, $timeout, $location, GetUU, $cordovaCamera) {
 	$scope.posts = Post.all;
 	$scope.post = {message: '', timestamp: Firebase.ServerValue.TIMESTAMP};
 
@@ -66,54 +66,35 @@ angular.module('starter.controllers', [])
 	// init variables
 	$scope.data = {};
 	$scope.obj;
-	var pictureSource;   // picture source
-	var destinationType; // sets the format of returned value
+	var pictureSource = Camera.PictureSourceType.CAMERA;   // picture source
+	var destinationType = Camera.DestinationType.DATA_URL; // sets the format of returned value
 	var url;
 	
 	// on DeviceReady check if already logged in (in our case CODE saved)
-	ionic.Platform.ready(function() {
-		//console.log("ready get camera types");
-		if (!navigator.camera)
-			{
-			// error handling
-			return;
-			}
-		//pictureSource=navigator.camera.PictureSourceType.PHOTOLIBRARY;
-		pictureSource=navigator.camera.PictureSourceType.CAMERA;
-		destinationType=navigator.camera.DestinationType.FILE_URI;
-		});
+	document.addEventListener("deviceready", function () {
 	
-	// get upload URL for FORM
-	GetUU.query(function(response) {
-		$scope.data = response;
-		//console.log("got upload url ", $scope.data.uploadurl);
-		});
-	
-	// take picture
-	$scope.takePicture = function() {
-		//console.log("got camera button click");
-		var options =   {
-			quality: 50,
-			destinationType: destinationType,
-			sourceType: pictureSource,
-			encodingType: 0
-			};
-		if (!navigator.camera)
-			{
-			// error handling
-			return;
-			}
-		navigator.camera.getPicture(
-			function (imageURI) {
-				//console.log("got camera success ", imageURI);
-				$scope.mypicture = imageURI;
-				},
-			function (err) {
-				//console.log("got camera error ", err);
-				// error handling camera plugin
-				},
-			options);
-		};
+		// take picture
+		$scope.takePicture = function() {
+	        var options = { 
+	            quality : 75, 
+	            destinationType : Camera.DestinationType.DATA_URL, 
+	            sourceType : Camera.PictureSourceType.CAMERA, 
+	            allowEdit : true,
+	            encodingType: Camera.EncodingType.JPEG,
+	            targetWidth: 300,
+	            targetHeight: 300,
+	            popoverOptions: CameraPopoverOptions,
+	            saveToPhotoAlbum: false
+	        };
+ 
+	        $cordovaCamera.getPicture(options).then(function(imageData) {
+	            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+	        }, function(err) {
+	            // An error occured. Show a message to the user
+	        });
+    	}
+    });
+
 
 	// do POST on upload url form by http / html form    
 	$scope.update = function(obj) {
