@@ -5,7 +5,7 @@
 	<form ng-submit="submitPost()">
 			
 		<textarea id="texta" type="text" ng-model="post.message" placeholder="What do you have to say?"></textarea>
-		<img ng-hide="!post.image" ng-src="{{post.image}}">
+		<img ng-hide="!post.image" style="width: 100%" id="image_preview" ng-hide="!post.image" ng-src="{{post.image}}">
 
 		<button class="half button button-positive pull-left {{!post.message && !post.image ? 'disabled':''}}" type="submit">
             
@@ -24,10 +24,9 @@
         	<span class="fa fa-camera"></span>
     	</a>
 
-    	<a ng-cloak ng-show="post.image" class="half button button-assertive pull-right" ng-click="deletePicture()">
+    	<a id="deletePic" ng-cloak ng-show="post.image" class="half button button-assertive pull-right" ng-click="deletePicture()">
     		<span ng-show="post.image" class="fa fa-times"></span>
     	</a>
-    	<img id="image" src=""></img>
 
 </div>
 	</form>

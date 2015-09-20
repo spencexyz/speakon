@@ -54,7 +54,7 @@ angular.module('starter.controllers', [])
 	document.addEventListener('deviceready', startRanging, false);
 })
 
-.controller('PostsCtrl', function($scope, Post, $timeout, $location, GetUU, $cordovaCamera) {
+.controller('PostsCtrl', function($scope, Post, $timeout, $location, GetUU, $cordovaCamera, $ionicScrollDelegate) {
 	$scope.posts = Post.all;
 	$scope.post = {message: '', image: '', timestamp: Firebase.ServerValue.TIMESTAMP};
 
@@ -103,7 +103,7 @@ angular.module('starter.controllers', [])
 			var hideSpinner = function() {
 				$scope.loading = false;
 			}
-
+   			$ionicScrollDelegate.scrollTop();
 			$timeout(hideSpinner, 1000);
    		});
     };

@@ -2,10 +2,14 @@
 	<!-- <ion-nav-title>Message</ion-nav-title> -->
 	<ion-content>
 		<div class="list card" ng-repeat="post in posts | orderBy:'-timestamp'">
-			<div class="item">
-				<p> {{post.message}} </p>
+			<div ng-hide="!post.message" class="item item-text-wrap">
+				<p id="message"> {{post.message}} </p>
+			</div>
+			<div ng-hide="!post.image" class="item item-image">
 				<img id="feedImg" ng-src="{{post.image}}">
-				<p> {{post.timestamp | date:'h:mm a'}} </p>
+			</div>
+			<div style="padding:5px;" class="item pull-right">
+				<p id="timestamp"> {{post.timestamp | date:'h:mm a'}} </p>
 			</div>
 		</div>
 	</ion-content>
