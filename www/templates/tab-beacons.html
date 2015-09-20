@@ -8,8 +8,9 @@
 			<div ng-hide="!post.image" class="item item-image">
 				<img id="feedImg" ng-src="{{post.image}}">
 			</div>
-			<div style="padding:5px;" class="item pull-right">
-				<p id="timestamp"> {{post.timestamp | date:'h:mm a'}} </p>
+			<div style="padding:5px;" class="item row">
+  				<div id="person" class="col col-75">Posted by: {{post.randomIdentifier}}</div>
+				<div class="col"><p class="pull-right" id="timestamp"> {{post.timestamp | date:'h:mm a'}} </p></div>
 			</div>
 		</div>
 	</ion-content>

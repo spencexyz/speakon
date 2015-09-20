@@ -60,7 +60,9 @@ angular.module('starter.controllers', [])
 
 .controller('PostsCtrl', function($scope, Post, $timeout, $location, GetUU, $cordovaCamera, $ionicScrollDelegate) {
 	$scope.posts = Post.all;
-	$scope.post = {message: '', image: '', timestamp: Firebase.ServerValue.TIMESTAMP};
+	$scope.post = {message: '', image: '', timestamp: Firebase.ServerValue.TIMESTAMP, randomIdentifier: ''};
+
+	$scope.fakePerson = ['Guy in the blue', 'Girl with brown hair', 'Blonde haired individual behind you'];
 
 	$scope.loading = false;
 
@@ -102,8 +104,10 @@ angular.module('starter.controllers', [])
 
 	$scope.submitPost = function () {
 		$scope.loading = true;
+		var number = Math.floor(Math.random() * (2));
+		$scope.post.randomIdentifier = $scope.fakePerson[number];
 		Post.create($scope.post).then(function() {
-			$scope.post = {message: '', image: '', timestamp: Firebase.ServerValue.TIMESTAMP};
+			$scope.post = {message: '', image: '', timestamp: Firebase.ServerValue.TIMESTAMP, randomIdentifier: ''};
 			var hideSpinner = function() {
 				$scope.loading = false;
 			}
