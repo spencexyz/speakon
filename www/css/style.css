@@ -1,1 +1,22 @@
-/* Empty. Add your own CSS if you like */
+html, body {
+    height: 100%;
+}
+
+#feedImg {
+	width: 100%;
+}
+
+.button {
+	width: 49%;
+	display: inline-block;
+	margin-top: 10px;
+}
+
+textarea {
+	border: 0;
+	padding: 10px 5px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

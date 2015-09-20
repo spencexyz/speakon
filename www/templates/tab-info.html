@@ -3,11 +3,11 @@
 	<ion-content class="padding">
 
 	<form ng-submit="submitPost()">
+			
+		<textarea id="texta" type="text" ng-model="post.message" placeholder="What do you have to say?"></textarea>
+		<img ng-hide="!post.image" ng-src="{{post.image}}">
 
-		<label class="item item-input">
-			<input type="text" ng-model="post.message" placeholder="What do you have to say?" /> 
-		</label>
-		<button class="button button-full button-positive" type="submit">
+		<button class="half button button-positive pull-left {{!post.message && !post.image ? 'disabled':''}}" type="submit">
             
 	        <span data-ng-hide="loading">
 	        	Post
@@ -20,12 +20,13 @@
 
         </button>
 
-        <img ng-src="{{post.image}}">
-    	<!-- <img ng-show="imgURI === undefined" ng-src="http://placehold.it/300x300"> -->
-        <a class="button button-full button-calm" ng-click="takePicture()">
+        <a ng-hide="post.image" class="half button button-calm pull-right" ng-click="takePicture()">
         	<span class="fa fa-camera"></span>
     	</a>
 
+    	<a ng-cloak ng-show="post.image" class="half button button-assertive pull-right" ng-click="deletePicture()">
+    		<span ng-show="post.image" class="fa fa-times"></span>
+    	</a>
     	<img id="image" src=""></img>
 
 </div>

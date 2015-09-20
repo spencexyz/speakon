@@ -2,8 +2,18 @@
 
 angular.module('starter.controllers', [])
 
-// Controller for info page has no functionality
-.controller('InfoCtrl', function($scope) {})
+.filter('timeago', function () {
+		
+	return function(item) {
+		var currentTime = new Date().getTime();
+  		var out = currentTime - item;
+  		var convertedTime;
+  		if(out/1000/60 < 60) {
+  			convertedTime = Math.round(out/1000/60);
+  		}
+    	return convertedTime;
+	};
+})
 
 // Controller for page with list of beacons
 .controller('BeaconsCtrl', function($scope, $rootScope, Beacons, $state, $ionicHistory, $timeout) {
@@ -81,6 +91,10 @@ angular.module('starter.controllers', [])
 	        });
     	}
     });
+
+	$scope.deletePicture = function() {
+		$scope.post.image = '';
+	};
 
 	$scope.submitPost = function () {
 		$scope.loading = true;
