@@ -16,11 +16,15 @@ angular.module('starter.controllers', [])
 })
 
 // Controller for page with list of beacons
-.controller('BeaconsCtrl', function($scope, $rootScope, Beacons, $state, $ionicHistory, $timeout) {
+.controller('BeaconsCtrl', function($scope, $rootScope, Beacons, $state, $ionicHistory, $timeout, $ionicScrollDelegate) {
 
 	function startRanging() {
 		Beacons.stopRangingBeacons();
 		Beacons.startRangingBeacons(beaconsRanged, rangingError);
+	}
+
+	$scope.scrollUp = function() {
+		$ionicScrollDelegate.scrollTop();
 	}
 
 	function beaconsRanged(beacons) {
