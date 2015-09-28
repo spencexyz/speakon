@@ -2,21 +2,23 @@
 
 angular.module('starter.controllers', [])
 
-.filter('timeago', function () {
-		
-	return function(item) {
-		var currentTime = new Date().getTime();
-  		var out = currentTime - item;
-  		var convertedTime;
-  		if(out/1000/60 < 60) {
-  			convertedTime = Math.round(out/1000/60);
-  		}
-    	return convertedTime;
-	};
-})
-
 // Controller for page with list of beacons
 .controller('BeaconsCtrl', function($scope, $rootScope, Beacons, $state, $ionicHistory, $timeout, $ionicScrollDelegate) {
+
+	var delegate = new cordova.plugins.locationManager.Delegate().implement({
+		didRangeBeaconsInRegion: function (pluginResult) {
+			// here you do what you like with beacons
+			// the first one in the pluginResult.beacons array is the closest one
+			var i, signalStrength = 0;
+			for (i = 0; i < pluginResult.beacons.length; i++) {
+				signalStrength = pluginResult.beacons[i].rssi;
+				console.log(signalStrength, pluginResult.beacons[i].major, pluginResult.beacons[i].minor);
+				if(beacons[i].major == 50887){
+					$state.go('tab.beacons')
+				}
+			}
+		}
+	});
 
 	function startRanging() {
 		Beacons.stopRangingBeacons();
@@ -39,13 +41,19 @@ angular.module('starter.controllers', [])
 
 		//this code changes the state based on how far away the beacon is
 		//TODO create a homescreen where you first land while the app checks distance
-		if($scope.distance) {
+		if($scope.distance < 0.2) {
 			var currentView = $ionicHistory.currentView();
 			if(currentView.stateId === "welcome"){
 				function changeState() {$state.go('tab.beacons')};
 
-				$timeout(changeState, 5000);
+				changeState();
 			}
+		}
+
+		if($scope.distance > 0.2) {
+			function changeState() {$state.go('tab.beacons')};
+
+			$state.go('welcome');
 		}
 	}
 
@@ -62,7 +70,7 @@ angular.module('starter.controllers', [])
 	$scope.posts = Post.all;
 	$scope.post = {message: '', image: '', timestamp: Firebase.ServerValue.TIMESTAMP, randomIdentifier: ''};
 
-	$scope.fakePerson = ['Guy in the blue', 'Girl with brown hair', 'Blonde haired individual behind you'];
+	$scope.fakePerson = ['Guy in the blue', 'Girl with brown hair', 'Blonde haired individual behind you', 'Will Ferguson'];
 
 	$scope.loading = false;
 
@@ -91,7 +99,6 @@ angular.module('starter.controllers', [])
  
 	        $cordovaCamera.getPicture(options).then(function(imageData) {
 	            $scope.post.image = "data:image/jpeg;base64," + imageData;
-	            hyper.log($scope.post.image);
 	        }, function(err) {
 	            // An error occured. Show a message to the user
 	        });
@@ -104,8 +111,9 @@ angular.module('starter.controllers', [])
 
 	$scope.submitPost = function () {
 		$scope.loading = true;
-		var number = Math.floor(Math.random() * (2));
+		var number = Math.floor(Math.random() * ($scope.fakePerson.length));
 		$scope.post.randomIdentifier = $scope.fakePerson[number];
+
 		Post.create($scope.post).then(function() {
 			$scope.post = {message: '', image: '', timestamp: Firebase.ServerValue.TIMESTAMP, randomIdentifier: ''};
 			var hideSpinner = function() {
@@ -147,6 +155,8 @@ angular.module('starter.controllers', [])
 			//console.log("upload error target " + error.target);
 			}
 		};
+
+
 })
 
 .controller('FeedCtrl', function($scope, Post) {
